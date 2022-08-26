@@ -1,16 +1,30 @@
-import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { StackNavigation } from './src/StackNavigation';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { NativeBaseProvider } from "native-base";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AuthProvider } from "./src/context/AuthContex";
+import { StackNavigator } from "./src/navigation/stack";
 
-const App = () => {
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: false,
+    },
+  },
+});
+
+export default function App() {
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
-      <NavigationContainer>
-        <StackNavigation />
-      </NavigationContainer>
-    </GestureHandlerRootView>
+    <QueryClientProvider client={queryClient}>
+      <NativeBaseProvider>
+        <AuthProvider>
+          <SafeAreaProvider>
+            <StackNavigator />
+            <StatusBar />
+          </SafeAreaProvider>
+        </AuthProvider>
+      </NativeBaseProvider>
+    </QueryClientProvider>
   );
 }
-
-export default App;
