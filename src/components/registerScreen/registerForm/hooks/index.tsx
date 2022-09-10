@@ -1,10 +1,10 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useState } from "react";
 import useAsyncStorage from "../../../../hooks/asyncStorage/useAsyncStorage";
+import { useSnackBar } from "../../../../hooks/contexts/useSnackBar";
 import useFinallizeRegister from "../../../../hooks/user/useFinallizeRegister";
 import useInitRegisterUser from "../../../../hooks/user/useInitRegisterUser";
 import useRegisterVerify from "../../../../hooks/user/useRegisterVerify";
-import { api } from "../../../../service/handleAPI";
 import {
   RegisterFinallizePayload,
   RegisterVerifyPayload,
@@ -26,7 +26,7 @@ export default function useRegisterForm({ nav }: Props) {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [code, setCode] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
-
+  const {dispatchSnackbar} = useSnackBar()
   const { storeData } = useAsyncStorage();
 
   const {
@@ -54,6 +54,11 @@ export default function useRegisterForm({ nav }: Props) {
     setErrorMessage("");
   }
 
+  function onError(err: any) {
+    dispatchSnackbar(err.response.data.message, 'error');
+  }
+
+
   async function finallizeRegister() {
     finallizeReset()
     const payload: RegisterFinallizePayload = {
@@ -63,10 +68,7 @@ export default function useRegisterForm({ nav }: Props) {
     };
 
     await finallizeRegisterRequest(payload, {
-      onError: (err) => {
-        //@ts-ignore
-        setErrorMessage(err.response.data.message);
-      },
+      onError
     });
   }
 
@@ -80,10 +82,7 @@ export default function useRegisterForm({ nav }: Props) {
       onSuccess: async (res) => {
         await storeData("registerToken", res.data.message);
       },
-      onError: (err) => {
-        //@ts-ignore
-        setErrorMessage(err.response.data.message);
-      },
+      onError
     });
   }
 
@@ -96,10 +95,7 @@ export default function useRegisterForm({ nav }: Props) {
       onSuccess: () => {
         setActualStep(actualStep + 1);
       },
-      onError: (err) => {
-        //@ts-ignore
-        setErrorMessage(err.response.data.message);
-      },
+      onError
     });
   }
 

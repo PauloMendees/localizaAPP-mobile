@@ -6,12 +6,14 @@ type Props = {
   style?: Object;
   endIcon?: JSX.Element | JSX.Element[] | undefined;
   startIcon?: JSX.Element | JSX.Element[] | undefined;
-  label: string;
+  label?: string;
   textStyle?: Object;
   onPress?: () => void;
   rounded?: "xs" | "xl" | "sm" | "none" | "md" | "lg" | "full" | "2xl" | "3xl";
   ml?: number
   mr?: number
+  mb?: number
+  mt?: number
   isLoading?: boolean
   size?: "lg" | "md" | "sm" | "xs"
   width?: string | number
@@ -29,6 +31,8 @@ export function ButtonBase(props: Props) {
         onPress={props.onPress}
         ml={props.ml}
         mr={props.mr}
+        mb={props.mb}
+        mt={props.mt}
         size={props.size}
         width={props.width}
         variant={props.variant}

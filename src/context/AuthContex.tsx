@@ -1,5 +1,6 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, ReactNode, useState } from "react";
 import useAsyncStorage from "../hooks/asyncStorage/useAsyncStorage";
+import { useSnackBar } from "../hooks/contexts/useSnackBar";
 import useLogin from "../hooks/user/useLogin";
 import { LoginPayload } from "../service/loginService/types";
 
@@ -27,6 +28,8 @@ export function AuthProvider({ children }: AuthProvider) {
   const { mutateAsync: loginRequest, isLoading, reset } = useLogin();
   const { storeData, getData } = useAsyncStorage();
 
+  const {dispatchSnackbar} = useSnackBar();
+
   function clearState() {
     reset();
     setIsAuthenticated(false);
@@ -53,7 +56,7 @@ export function AuthProvider({ children }: AuthProvider) {
       },
       onError: (err) => {
         //@ts-ignore
-        setErrorMessage(err.response.data.message);
+        dispatchSnackbar(err.response.data.message, 'error')
       },
     });
   }

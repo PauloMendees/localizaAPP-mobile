@@ -31,16 +31,6 @@ export function RegisterForm({ nav }: Props) {
 
   return (
     <>
-      {errorMessage ? (
-        <Snackbar
-          color={colors.light.cian}
-          message={errorMessage}
-          status="error"
-          onClose={clearState}
-        />
-      ) : (
-        <></>
-      )}
       <View style={Style.container}>
         <Logo />
         {steps[actualStep]}

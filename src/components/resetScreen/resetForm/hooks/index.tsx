@@ -1,6 +1,7 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useState } from "react";
 import useAsyncStorage from "../../../../hooks/asyncStorage/useAsyncStorage";
+import { useSnackBar } from "../../../../hooks/contexts/useSnackBar";
 import useFinallizeResetPassword from "../../../../hooks/user/useFinallizeResetPassword";
 import useInitResetPassword from "../../../../hooks/user/useInitResetPassword";
 import useResetVerify from "../../../../hooks/user/useResetVerify";
@@ -26,6 +27,7 @@ export default function useResetForm({ nav }: Props) {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [code, setCode] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const {dispatchSnackbar} = useSnackBar()
 
   const { storeData } = useAsyncStorage();
 
@@ -48,7 +50,7 @@ export default function useResetForm({ nav }: Props) {
   } = useFinallizeResetPassword();
 
   function onError(err: any) {
-    setErrorMessage(err.response.data.message);
+    dispatchSnackbar(err.response.data.message, 'error');
   }
 
   function clearState() {

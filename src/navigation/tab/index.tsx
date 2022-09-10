@@ -1,9 +1,10 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
 import { Icon } from "native-base";
 import { Platform } from "react-native";
-import Home from "../../screens/home";
+import AddItem from "../../screens/AddItem";
+import Inventario from "../../screens/Inventario";
+import SearchTable from "../../screens/SearchTable";
 import { colors } from "../../theme/colors";
 
 export function TabNavigation() {
@@ -15,12 +16,12 @@ export function TabNavigation() {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === "Home") {
-            iconName = focused
-              ? "home"
-              : "home";
-          } else if (route.name === "Settings") {
-            iconName = focused ? "gear" : "gear";
+          if (route.name === "Inventário") {
+            iconName = focused ? "shopping-bag" : "shopping-bag";
+          } else if (route.name === "Search") {
+            iconName = focused ? "search" : "search";
+          } else if(route.name === "Adicionar") {
+            iconName = "plus"
           }
 
           // You can return any component that you like here!
@@ -35,21 +36,24 @@ export function TabNavigation() {
           );
         },
         tabBarActiveTintColor: colors.light.cian,
-        tabBarInactiveTintColor: colors.light.gray,
+        tabBarInactiveTintColor: colors.light.darkGrey
       })}
     >
       <Tab.Screen
-        name="Home"
-        component={Home}
-        options={{
-          headerStyle: {
-            backgroundColor: 'transparent',
-            shadowColor: 'transparent',
-            borderBottomWidth: 1
-          }
-        }}
+        name="Inventário"
+        component={Inventario}
+        options={{ headerShown: false }}
       />
-      <Tab.Screen name="Settings" component={Home} />
+      <Tab.Screen
+        name="Adicionar"
+        component={AddItem}
+        options={{ headerShown: false}}
+      />
+      <Tab.Screen
+        name="Search"
+        component={SearchTable}
+        options={{ headerShown: false }}
+      />
     </Tab.Navigator>
   );
 }

@@ -1,9 +1,10 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-type RootStackParamList = {
+export type RootStackParamList = {
     Login: any;
     Register: any;
-    ResetPassword: any
+    ResetPassword: any;
+    Adicionar: any
   };
 
 export type ScreenProps = NativeStackScreenProps<RootStackParamList>;
